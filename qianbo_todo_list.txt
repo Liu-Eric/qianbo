@@ -1,0 +1,15 @@
+###千波需要做的事情
+初始仓位在on_pos中调用
+日志记录
+撤单之后保证撤单完成
+如果Y超过买五的价格，则目标价格为买五-0.01
+fak订单的等待时间
+下单数目确定是整数
+验资
+paser
+orderBook
+涨停价跌停价为0的情况
+on_rtn_order同一个order_id记录多次
+检验各种下单操作
+orderBook类检查
+target_mktval计算
