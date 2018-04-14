@@ -4,6 +4,7 @@ import pandas as pd
 n = 10000
 STOCK_LIST = ['000001']
 ASK_BID_RATIO = 1.01
+MININAL_UNIT = 1000
 def initialize(context):
     context.add_md(source=SOURCE.XTP)
     context.ticker = '000001'
@@ -15,6 +16,7 @@ def initialize(context):
     context.level2_vol = pd.DataFrame (np.nan,columns=['ask5', 'ask4', 'ask3', 'ask2', 'ask1', 'bid1', 'bid2', 'bid3', 'bid4','bid5'], index=STOCK_LIST)
     context.order_detail = pd.DataFrame (columns=['order_id', 'stock_code', 'order_price', 'order_time', 'volume_trade', 'volume_left', 'volume_total','direction', 'status', 'order_ref'])
     context.trade = True
+    context.cancel = False
     print "----initialization down----"
 
 def on_pos(context, pos_handler, request_id, source, rcv_time):
@@ -64,7 +66,23 @@ def on_tick(context, market_data, source, rcv_time):
        put_limit_order(md.InstrumentID,n,md.BidPrice1,DIRECTION.Buy,OFFSET.Open)
        put_limit_order(md.InstrumentID,n,md.BidPrice2,DIRECTION.Buy,OFFSET.Open)
        put_limit_order(md.InstrumentID,n,md.BidPrice3,DIRECTION.Buy,OFFSET.Open)
+       context.cancel_target = md.BidPrice3
+       put_limit_order(md.InstrumentID,100,md.BidPrice3,DIRECTION.Buy,OFFSET.Open)                                                                      
        put_limit_order(md.InstrumentID,n,md.BidPrice4,DIRECTION.Buy,OFFSET.Open)
        put_limit_order(md.InstrumentID,n,md.BidPrice5,DIRECTION.Buy,OFFSET.Open)
        put_opposite_order(md.InstrumentID,n,DIRECTION.Buy,OFFSET.Open)
        context.trade = False
+       context.cancel = True
+    if md.InstrumnetID in STOCK_LIST context.cancel:
+       cancel_beyond_limit(md.InstrumentID,context.cancel_target_price,DIRECTION.Buy)
+       cancel_all(md.InstrumentID)
+                                                                                 
+                                                                                 
+                                                                                 
+                                                                                 
+                                                                                 
+                                                                                 
+                                                                                 
+                                                                                 
+                                                                                 
+                                                                                 
