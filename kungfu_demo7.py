@@ -73,10 +73,11 @@ def on_tick(context, market_data, source, rcv_time):
        put_opposite_order(md.InstrumentID,n,DIRECTION.Buy,OFFSET.Open)
        context.trade = False
        context.cancel = True
-    if md.InstrumnetID in STOCK_LIST context.cancel:
+    if md.InstrumnetID in STOCK_LIST and context.cancel:
        cancel_beyond_limit(md.InstrumentID,context.cancel_target_price,DIRECTION.Buy)
        cancel_all(md.InstrumentID)
-                                                                                 
+       context.trade = True
+       context.cancel = False                                                                          
                                                                                  
                                                                                  
                                                                                  
